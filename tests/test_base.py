@@ -8,3 +8,9 @@ def test_grab_column():
     dataframe = pd.DataFrame(data)
     out = ColumnGrabber("text").fit_transform(dataframe)
     assert out == ["hi", "yes"]
+
+
+def test_grab_get_feature_names_out():
+    colname = "test_col"
+    cg = ColumnGrabber(colname=colname)
+    assert cg.get_feature_names_out() == [colname]

@@ -1,4 +1,6 @@
+from sklearn.utils.validation import check_is_fitted
 from sentence_transformers import SentenceTransformer as SBERT
+
 from embetter.base import EmbetterBase
 
 
@@ -69,6 +71,14 @@ class SentenceEncoder(EmbetterBase):
         self.name = name
         self.tfm = SBERT(name)
 
+    def fit(self, X, y=None):
+        self.output_len_ = self.tfm[1].word_embedding_dimension
+        return self
+
     def transform(self, X, y=None):
         """Transforms the text into a numeric representation."""
         return self.tfm.encode(X)
+
+    def get_feature_names_out(self, feature_names_out=None):
+        check_is_fitted(self)
+        return [f"emb{i}" for i in range(self.output_len_)]
