@@ -65,3 +65,6 @@ class ColumnGrabber(EmbetterBase):
         Takes a column from pandas and returns it as a list.
         """
         return [x for x in X[self.colname]]
+
+    def get_feature_names_out(self, feature_names_out=None):
+        return [self.colname]
