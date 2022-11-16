@@ -21,3 +21,4 @@ def test_basic_timm(encode_predictions, size):
     X = ImageLoader().fit_transform(["tests/data/thiscatdoesnotexist.jpeg"])
     out = model.fit_transform(X)
     assert out.shape == (1, size)
+    assert len(model.get_feature_names_out()) == size

@@ -60,3 +60,7 @@ class TimmEncoder(EmbetterBase):
         """
         batch = [self.transform_img(x).unsqueeze(0) for x in X]
         return np.array([self.model(x).squeeze(0).detach().numpy() for x in batch])
+
+    def get_feature_names_out(self, feature_names_out=None):
+        output_dim = self.model.num_classes if self.encode_predictions else self.model.num_features
+        return [f"image_feature_{i}" for i in range(output_dim)]
