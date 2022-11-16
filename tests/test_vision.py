@@ -6,9 +6,12 @@ from embetter.vision import ImageLoader, ColorHistogramEncoder, TimmEncoder
 def test_color_hist_resize(n_buckets):
     """Make sure we can resize and it fits"""
     X = ImageLoader().fit_transform(["tests/data/thiscatdoesnotexist.jpeg"])
-    shape_out = ColorHistogramEncoder(n_buckets=n_buckets).fit_transform(X).shape
-    shape_exp = (1, n_buckets * 3)
+    che = ColorHistogramEncoder(n_buckets=n_buckets)
+    output = che.fit_transform(X)
+    shape_out = output.shape
+    shape_exp = (1, che.output_dim)
     assert shape_exp == shape_out
+    assert len(che.get_feature_names_out()) == che.output_dim
 
 
 @pytest.mark.parametrize("encode_predictions,size", [(True, 1000), (False, 1280)])

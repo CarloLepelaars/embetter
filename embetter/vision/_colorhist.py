@@ -39,13 +39,14 @@ class ColorHistogramEncoder(EmbetterBase):
 
     def __init__(self, n_buckets=256):
         self.n_buckets = n_buckets
+        self.output_dim = self.n_buckets * 3
 
     def transform(self, X, y=None):
         """
         Takes a sequence of `PIL.Image` and returns a numpy array representing
         a color histogram for each.
         """
-        output = np.zeros((len(X), self.n_buckets * 3))
+        output = np.zeros((len(X), self.output_dim))
         for i, x in enumerate(X):
             arr = np.array(x)
             output[i, :] = np.concatenate(
@@ -65,3 +66,6 @@ class ColorHistogramEncoder(EmbetterBase):
                 ]
             )
         return output
+
+    def get_feature_names_out(self, feature_names_out=None):
+        return [f"colorhist_{i}" for i in range(self.output_dim)]
