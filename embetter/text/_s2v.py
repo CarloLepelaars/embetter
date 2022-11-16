@@ -21,3 +21,6 @@ class Sense2VecEncoder(BaseEstimator):
     def transform(self, X, y=None):
         """Transforms the phrase text into a numeric representation."""
         return np.array([self.s2v[x] for x in X])
+
+    def get_feature_names_out(self, feature_names_out=None):
+        return [f"sense2vec_{i}" for i in range(self.s2v.shape[1])]
